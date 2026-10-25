@@ -17,12 +17,14 @@ function Dashboard() {
   const [seats, setSeats] = useState(1)
   const [message, setMessage] = useState('')
   const [loading, setLoading] = useState(true)
+  const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
   useEffect(() => {
     document.title = `Bookings (${bookings.length}) - CineBook`
   }, [bookings.length])
 
+  // Load movies from the deployed backend
   useEffect(() => {
     let cancelled = false
 
@@ -31,23 +33,26 @@ function Dashboard() {
         const response = await fetch(`${API_URL}/api/movies`)
 
         if (!response.ok) {
-          throw new Error('Unable to load movies from the server.')
+          throw new Error('Unable to load movies.')
         }
 
         const data = await response.json()
 
         if (!Array.isArray(data)) {
-          throw new Error('Unexpected movie data received.')
+          throw new Error('Invalid movie data received.')
         }
 
         if (!cancelled) {
           setMovies(data)
-          setMovie(data.length ? (data[0].title || data[0].name || '') : '')
-          setError('')
+          setMovie(
+            data.length
+              ? (data[0].title || data[0].name || '')
+              : ''
+          )
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err.message || 'Could not connect to the backend.')
+          setError(err.message || 'Could not connect to backend.')
         }
       } finally {
         if (!cancelled) setLoading(false)
@@ -61,14 +66,16 @@ function Dashboard() {
     }
   }, [])
 
+  // Clear status message after a few seconds
   useEffect(() => {
     if (!message) return
 
-    const timer = setTimeout(() => setMessage(''), 3000)
+    const timer = setTimeout(() => setMessage(''), 4000)
     return () => clearTimeout(timer)
   }, [message])
 
-  const addNewBooking = () => {
+  // Save booking to MongoDB through the backend
+  const addNewBooking = async () => {
     if (!movie) {
       setMessage('Please select a movie first.')
       return
@@ -77,25 +84,49 @@ function Dashboard() {
     const seatCount = Number(seats)
 
     if (!Number.isInteger(seatCount) || seatCount < 1 || seatCount > 10) {
-      setMessage('Please select between 1 and 10 seats.')
+      setMessage('Choose between 1 and 10 seats.')
       return
     }
 
-    const newBooking = {
-      movie,
-      date: '2026-09-10',
-      time: '7:00 PM',
-      seats: seatCount
-    }
+    try {
+      setSaving(true)
+      setMessage('')
 
-    addBooking(newBooking)
-    setMessage('Ticket saved in this browser!')
+      const response = await fetch(`${API_URL}/api/bookings`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          movie,
+          date: '2026-10-26',
+          time: '7:00 PM',
+          seats: seatCount,
+        }),
+      })
+
+      const data = await response.json()
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Booking failed.')
+      }
+
+      addBooking(data.booking)
+      setMessage('Booking saved successfully!')
+    } catch (err) {
+      console.error('Booking error:', err)
+      setMessage(
+        err.message || 'Could not save booking. Please try again.'
+      )
+    } finally {
+      setSaving(false)
+    }
   }
 
   return (
     <div className="max-w-md mx-auto mt-6 bg-gray-900 border border-gray-700 rounded-lg p-4">
       <p className="text-white">
-        Welcome, {user?.name || 'Guest'}
+        Welcome, {user?.name || 'CineBook User'}
       </p>
 
       <p className="text-gray-400">
@@ -109,7 +140,7 @@ function Dashboard() {
       {message && (
         <div
           role="status"
-          className="mt-3 p-3 bg-green-600 text-white rounded-lg"
+          className="mt-3 p-3 bg-blue-600 text-white rounded-lg"
         >
           {message}
         </div>
@@ -118,13 +149,16 @@ function Dashboard() {
       <div className="mt-4 space-y-3">
         <label className="block text-gray-300">
           Select movie
+
           <select
             value={movie}
             onChange={(e) => setMovie(e.target.value)}
-            disabled={loading || movies.length === 0}
+            disabled={loading || movies.length === 0 || saving}
             className="mt-1 w-full px-3 py-2 bg-gray-800 text-white rounded-lg"
           >
-            {loading && <option value="">Loading movies...</option>}
+            {loading && (
+              <option value="">Loading movies...</option>
+            )}
 
             {!loading && movies.length === 0 && (
               <option value="">No movies available</option>
@@ -133,11 +167,13 @@ function Dashboard() {
             {movies.map((item) => {
               const title = item.title || item.name
 
-              return title ? (
+              if (!title) return null
+
+              return (
                 <option key={item._id} value={title}>
                   {title}
                 </option>
-              ) : null
+              )
             })}
           </select>
         </label>
@@ -150,17 +186,19 @@ function Dashboard() {
 
         {!loading && !error && movies.length === 0 && (
           <p className="text-yellow-400 text-sm">
-            No movies found. Add movie records to your MongoDB database.
+            No movies found in the database.
           </p>
         )}
 
         <label className="block text-gray-300">
           Number of seats
+
           <input
             type="number"
             min="1"
             max="10"
             value={seats}
+            disabled={saving}
             onChange={(e) => setSeats(Number(e.target.value))}
             className="mt-1 w-full px-3 py-2 bg-gray-800 text-white rounded-lg"
           />
@@ -171,14 +209,14 @@ function Dashboard() {
 
       <button
         onClick={addNewBooking}
-        disabled={loading || !movie}
+        disabled={loading || !movie || saving}
         className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 rounded text-white"
       >
-        Book Tickets
+        {saving ? 'Booking...' : 'Book Tickets'}
       </button>
 
       <p className="mt-3 text-xs text-gray-400">
-        Note: bookings are currently saved in this browser, not in the backend database.
+        Bookings are submitted to the backend database.
       </p>
     </div>
   )

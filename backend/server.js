@@ -15,10 +15,12 @@ const app = express();
 const userRoutes = require("./routes/userRoutes");
 const movieRoutes = require("./routes/movieRoutes");
 const authRoutes = require("./routes/authRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 // Security middleware
 app.use(helmet());
 app.use(cors());
+
 
 app.use(
   rateLimit({
@@ -50,6 +52,8 @@ app.use("/api/users", userRoutes);
 
 // Existing movie routes
 app.use("/api/movies", movieRoutes);
+
+app.use("/api/bookings", bookingRoutes);
 
 // Handle unknown routes
 app.use((req, res) => {
