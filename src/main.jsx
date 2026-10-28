@@ -6,6 +6,7 @@ import './style.css'
 import Dashboard from './components/Dashboard'
 import UserContext from './components/UserContext'
 
+
 createRoot(document.getElementById('react-dashboard')).render(
   <React.StrictMode>
     <UserContext.Provider
@@ -15,8 +16,9 @@ createRoot(document.getElementById('react-dashboard')).render(
       }}
     >
       <BookingProvider>
-      <Dashboard />
+        <Dashboard />
       </BookingProvider>
+      <Analytics />
     </UserContext.Provider>
   </React.StrictMode>
 )
