@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 import { BookingProvider } from './context/BookingContext'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
