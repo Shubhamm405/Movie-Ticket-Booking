@@ -1,4 +1,3 @@
-
 const mongoose = require("mongoose");
 
 const bookingSchema = new mongoose.Schema(
@@ -21,6 +20,27 @@ const bookingSchema = new mongoose.Schema(
       required: true,
       min: 1,
       max: 10,
+    },
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+    },
+    userEmail: {
+      type: String,
+      trim: true,
+      lowercase: true,
+    },
+    userName: {
+      type: String,
+      trim: true,
+    },
+    selectedSeats: {
+      type: [String],
+      default: [],
+    },
+    totalPrice: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

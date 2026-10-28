@@ -1,249 +1,28 @@
-<body class="bg-gray-950 text-white">
-  <div id="root"></div>
-
-  <!-- Navigation -->
-  <nav class="bg-gray-900 border-b border-gray-800">
-    <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-
-      <h1 class="text-2xl font-bold text-red-500">
-        CineBook
-      </h1>
-
-      <div class="flex gap-4">
-        <a href="#home" class="text-gray-300 hover:text-white">
-  Home
-</a>
-
-<a href="#login" class="text-gray-300 hover:text-white">
-  Login
-</a>
-
-<a href="#dashboard" class="text-gray-300 hover:text-white">
-  Dashboard
-</a>
-      </div>
-
-    </div>
-  </nav>
-
-  <!-- Home -->
-  <main id="home">
-
-    <section class="max-w-6xl mx-auto px-6 py-20 text-center">
-
-      <p class="text-red-500 font-semibold mb-4">
-        MOVIE TICKET BOOKING SYSTEM
-      </p>
-
-      <h2 class="text-4xl md:text-6xl font-bold mb-6">
-        Book Your Movie Tickets
-      </h2>
-
-      <p class="text-gray-400 max-w-2xl mx-auto mb-8">
-        Discover movies, choose your show, select your seats,
-        and enjoy your favourite movies.
-      </p>
-
-      <button
-        class="px-6 py-3 bg-red-600 hover:bg-red-700 rounded-lg font-semibold transition">
-        Browse Movies
-      </button>
-
-    </section>
-
-    <!-- Featured Movies -->
-    <section class="max-w-6xl mx-auto px-6 pb-20">
-
-      <h3 class="text-2xl font-bold mb-8">
-        Featured Movies
-      </h3>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-        <div class="bg-gray-900 rounded-xl p-6 shadow-lg">
-
-  <div class="h-48 rounded-lg mb-4 overflow-hidden">
-    <img
-      src="/images/odyssey.jpg.jpg"
-      alt="The Odyssey movie poster"
-      class="w-full h-full object-cover"
-    >
-  </div>
-
-  <h4 class="text-xl font-bold">The Odyssey</h4>
-  <p class="text-gray-400 mt-2">Adventure &bull; 2h 28m</p>
-
-  <button class="mt-4 w-full bg-red-600 hover:bg-red-700 py-2 rounded-lg">
-    View Show
-  </button>
-
-</div>
-
-       <div class="bg-gray-900 rounded-xl p-6 shadow-lg">
-
-  <div class="h-48 rounded-lg mb-4 overflow-hidden">
-    <img
-      src="/images/spiderman.jpg"
-      alt="The Odyssey movie poster"
-      class="w-full h-full object-cover"
-    >
-  </div>
-
-  <h4 class="text-xl font-bold">Spiderman Brand New Day</h4>
-  <p class="text-gray-400 mt-2">Action &bull; 2h 09m</p>
-
-  <button class="mt-4 w-full bg-red-600 hover:bg-red-700 py-2 rounded-lg">
-    View Show
-  </button>
-
-</div>
-
-        <div class="bg-gray-900 rounded-xl p-6 shadow-lg">
-
-  <div class="h-48 rounded-lg mb-4 overflow-hidden">
-    <img
-      src="/images/obsession.webp"
-      alt="The Odyssey movie poster"
-      class="w-full h-full object-cover"
-    >
-  </div>
-
-  <h4 class="text-xl font-bold">Obsession</h4>
-  <p class="text-gray-400 mt-2">Drama &bull; 2h 05m</p>
-
-  <button class="mt-4 w-full bg-red-600 hover:bg-red-700 py-2 rounded-lg">
-    View Show
-  </button>
-
-</div>
-
-      </div>
-
-    </section>
-
-    <!-- Login Section -->
-<section id="login" class="max-w-md mx-auto px-6 py-20">
-
-  <div class="bg-gray-900 rounded-xl shadow-lg p-8">
-
-    <h2 class="text-3xl font-bold text-center mb-2">
-      Login
-    </h2>
-
-    <p class="text-gray-400 text-center mb-8">
-      Login to book your movie tickets
-    </p>
-
-    <form>
-
-      <div class="mb-5">
-        <label class="block text-gray-300 mb-2">
-          Email
-        </label>
-
-        <input
-          type="email"
-          placeholder="Enter your email"
-          class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500"
-        >
-      </div>
-
-      <div class="mb-6">
-        <label class="block text-gray-300 mb-2">
-          Password
-        </label>
-
-        <input
-          type="password"
-          placeholder="Enter your password"
-          class="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:border-red-500"
-        >
-      </div>
-
-      <button
-        type="submit"
-        class="w-full bg-red-600 hover:bg-red-700 py-3 rounded-lg font-semibold">
-        Login
-      </button>
-
-    </form>
-
-  </div>
-
-</section>
-
-<!-- Dashboard Section -->
-<section id="dashboard" class="max-w-6xl mx-auto px-6 py-20">
-
-  <div id="react-dashboard"></div>
-
-  <div class="mb-10">
-    <p class="text-red-500 font-semibold">
-      USER DASHBOARD
-    </p>
-
-    <h2 class="text-4xl font-bold mt-2">
-      Welcome to CineBook
-    </h2>
-
-    <p class="text-gray-400 mt-3">
-      Manage your movie bookings from one place.
-    </p>
-  </div>
-
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-    <!-- Browse Movies -->
-    <div class="bg-gray-900 rounded-xl p-6 shadow-lg">
-      <h3 class="text-xl font-bold mb-3">
-        Browse Movies
-      </h3>
-
-      <p class="text-gray-400 mb-5">
-        Explore currently available movies and shows.
-      </p>
-
-      <button class="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg">
-        Browse
-      </button>
-    </div>
-
-    <!-- My Bookings -->
-    <div class="bg-gray-900 rounded-xl p-6 shadow-lg">
-      <h3 class="text-xl font-bold mb-3">
-        My Bookings
-      </h3>
-
-      <p class="text-gray-400 mb-5">
-        View your previous and upcoming movie bookings.
-      </p>
-
-      <button class="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg">
-        View Bookings
-      </button>
-    </div>
-
-    <!-- Profile -->
-    <div class="bg-gray-900 rounded-xl p-6 shadow-lg">
-      <h3 class="text-xl font-bold mb-3">
-        My Profile
-      </h3>
-
-      <p class="text-gray-400 mb-5">
-        View and manage your account information.
-      </p>
-
-      <button class="bg-red-600 hover:bg-red-700 px-5 py-2 rounded-lg">
-        Profile
-      </button>
-    </div>
-
-  </div>
-
-</section>
-
-  </main>
-
-  <script type="module" src="/src/main.jsx"></script>
-
-</body>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CineBook - Movie Ticket Booking System</title>
+    <meta
+      name="description"
+      content="Discover the latest movies, pick your preferred cinema seats, and book tickets instantly with CineBook."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+      }
+    </style>
+  </head>
+  <body class="bg-gray-950 text-white min-h-screen">
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

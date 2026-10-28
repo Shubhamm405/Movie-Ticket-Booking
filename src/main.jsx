@@ -1,24 +1,22 @@
-import { Analytics } from '@vercel/analytics/react'
-import { BookingProvider } from './context/BookingContext'
 import React from 'react'
 import { createRoot } from 'react-dom/client'
+import { Analytics } from '@vercel/analytics/react'
+import { AuthProvider } from './context/AuthContext'
+import { BookingProvider } from './context/BookingContext'
+import App from './App'
 import './style.css'
-import Dashboard from './components/Dashboard'
-import UserContext from './components/UserContext'
 
+const rootElement = document.getElementById('root') || document.getElementById('react-dashboard')
 
-createRoot(document.getElementById('react-dashboard')).render(
-  <React.StrictMode>
-    <UserContext.Provider
-      value={{
-        name: 'CineBook User',
-        role: 'User'
-      }}
-    >
-      <BookingProvider>
-        <Dashboard />
-      </BookingProvider>
-      <Analytics />
-    </UserContext.Provider>
-  </React.StrictMode>
-)
+if (rootElement) {
+  createRoot(rootElement).render(
+    <React.StrictMode>
+      <AuthProvider>
+        <BookingProvider>
+          <App />
+          <Analytics />
+        </BookingProvider>
+      </AuthProvider>
+    </React.StrictMode>
+  )
+}

@@ -4,30 +4,40 @@ const movieSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: true
+      required: true,
+      trim: true,
     },
-
     genre: {
       type: String,
-      required: true
+      required: true,
     },
-
     duration: {
       type: String,
-      required: true
+      required: true,
     },
-
     description: {
-      type: String
+      type: String,
     },
-
     seatsAvailable: {
       type: Number,
-      required: true
-    }
+      required: true,
+      default: 50,
+    },
+    poster: {
+      type: String,
+      default: "",
+    },
+    rating: {
+      type: Number,
+      default: 8.5,
+    },
+    price: {
+      type: Number,
+      default: 12,
+    },
   },
   {
-    timestamps: true
+    timestamps: true,
   }
 );
 
