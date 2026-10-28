@@ -87,6 +87,17 @@ function Navbar({ activeTab, setActiveTab }) {
             >
               Dashboard
             </button>
+            <button
+              onClick={() => handleNavClick('chat')}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition flex items-center gap-1.5 ${
+                activeTab === 'chat'
+                  ? 'bg-red-600/10 text-red-400 border border-red-500/20'
+                  : 'text-gray-300 hover:text-white hover:bg-gray-800/60'
+              }`}
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              Live Chat
+            </button>
           </nav>
 
           {/* User Auth Section */}
@@ -183,6 +194,13 @@ function Navbar({ activeTab, setActiveTab }) {
             className="w-full text-left px-3 py-2 rounded-lg text-gray-200 hover:bg-gray-800"
           >
             Dashboard
+          </button>
+          <button
+            onClick={() => handleNavClick('chat')}
+            className="w-full text-left px-3 py-2 rounded-lg text-gray-200 hover:bg-gray-800 flex items-center gap-2"
+          >
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Live Chat</span>
           </button>
 
           <div className="pt-3 border-t border-gray-800">

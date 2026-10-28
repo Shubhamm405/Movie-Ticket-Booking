@@ -60,6 +60,15 @@ function Footer({ onNavigate }) {
                   Dashboard
                 </button>
               </li>
+              <li>
+                <button
+                  type="button"
+                  onClick={() => onNavigate('chat')}
+                  className="hover:text-red-400 transition"
+                >
+                  Live Chat
+                </button>
+              </li>
             </ul>
           </div>
 

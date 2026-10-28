@@ -3,6 +3,7 @@ import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import MovieList from './components/MovieList'
 import Dashboard from './components/Dashboard'
+import LiveChat from './components/LiveChat'
 import Footer from './components/Footer'
 import AuthModal from './components/AuthModal'
 import BookingModal from './components/BookingModal'
@@ -55,6 +56,8 @@ function App() {
         {(activeTab === 'bookings' || activeTab === 'dashboard') && (
           <Dashboard onBrowseMovies={() => setActiveTab('movies')} />
         )}
+
+        {activeTab === 'chat' && <LiveChat />}
       </main>
 
       {/* Global Modals */}
