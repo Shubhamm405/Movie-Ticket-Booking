@@ -32,32 +32,30 @@ function Dashboard({ onBrowseMovies }) {
   }
 
   const totalSpent = bookings.reduce(
-    (sum, b) => sum + (b.totalPrice ? Number(b.totalPrice) : (b.seats || 1) * 12),
+    (sum, b) => sum + (b.totalPrice ? Number(b.totalPrice) : (b.seats || 1) * 250),
     0
   )
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 space-y-8 animate-fadeIn">
       {/* User Profile Header Card */}
-      <div className="relative overflow-hidden bg-gradient-to-r from-gray-900 via-gray-900 to-gray-950 border border-gray-800 rounded-3xl p-6 sm:p-8 shadow-2xl">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-red-600/10 rounded-full blur-3xl pointer-events-none" />
-
+      <div className="relative overflow-hidden bg-gradient-to-r from-gray-900 via-gray-900 to-gray-950 border border-gray-800 rounded-3xl p-6 sm:p-8 shadow-xl">
         <div className="relative flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-red-600 to-rose-500 text-white flex items-center justify-center font-black text-2xl shadow-xl shadow-red-600/30">
+            <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-red-600 to-rose-500 text-white flex items-center justify-center font-black text-2xl shadow-lg shadow-red-600/30">
               {user?.name ? user.name.charAt(0).toUpperCase() : 'C'}
             </div>
             <div>
               <div className="flex items-center gap-2">
                 <h1 className="text-2xl sm:text-3xl font-extrabold text-white">
-                  {user?.name || 'Guest Explorer'}
+                  {user?.name || 'Guest User'}
                 </h1>
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-red-600/20 text-red-400 border border-red-500/30">
-                  {user?.role === 'admin' ? 'Admin Access' : isAuthenticated ? 'Verified Member' : 'Guest'}
+                  {user?.role === 'admin' ? 'Admin' : isAuthenticated ? 'Member' : 'Guest'}
                 </span>
               </div>
               <p className="text-sm text-gray-400 mt-1">
-                {user?.email || 'Sign in to sync your bookings across devices.'}
+                {user?.email || 'Sign in to access and manage your bookings.'}
               </p>
             </div>
           </div>
@@ -86,17 +84,17 @@ function Dashboard({ onBrowseMovies }) {
                 >
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                 </svg>
-                <span>Refresh Bookings</span>
+                <span>Refresh</span>
               </button>
             )}
           </div>
         </div>
 
-        {/* Quick Stats Grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 mt-8 pt-6 border-t border-gray-800/80">
+        {/* User Stats Grid (Cleaned up, no developer/backend badges) */}
+        <div className="grid grid-cols-2 gap-4 mt-6 pt-6 border-t border-gray-800/80">
           <div className="bg-gray-950/50 p-4 rounded-2xl border border-gray-800">
             <span className="text-xs uppercase tracking-wider text-gray-400 font-semibold block">
-              Active Bookings
+              Total Bookings
             </span>
             <span className="text-2xl sm:text-3xl font-black text-white mt-1 block">
               {bookings.length}
@@ -105,20 +103,10 @@ function Dashboard({ onBrowseMovies }) {
 
           <div className="bg-gray-950/50 p-4 rounded-2xl border border-gray-800">
             <span className="text-xs uppercase tracking-wider text-gray-400 font-semibold block">
-              Total Spent
+              Total Amount
             </span>
             <span className="text-2xl sm:text-3xl font-black text-emerald-400 mt-1 block">
-              ${totalSpent.toFixed(2)}
-            </span>
-          </div>
-
-          <div className="col-span-2 sm:col-span-1 bg-gray-950/50 p-4 rounded-2xl border border-gray-800">
-            <span className="text-xs uppercase tracking-wider text-gray-400 font-semibold block">
-              Backend Status
-            </span>
-            <span className="inline-flex items-center gap-2 text-sm font-bold text-emerald-400 mt-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-ping" />
-              Connected (Render)
+              ₹{totalSpent.toLocaleString('en-IN')}
             </span>
           </div>
         </div>
@@ -144,10 +132,10 @@ function Dashboard({ onBrowseMovies }) {
         <div className="flex items-center justify-between mb-6">
           <div>
             <h2 className="text-2xl font-bold text-white">
-              My Tickets & Bookings
+              My Bookings
             </h2>
             <p className="text-xs text-gray-400 mt-0.5">
-              Live reservations saved to your database.
+              View and manage your movie tickets.
             </p>
           </div>
 
@@ -163,7 +151,7 @@ function Dashboard({ onBrowseMovies }) {
         {/* Loading */}
         {loading && bookings.length === 0 && (
           <div className="text-center py-12 bg-gray-900/40 rounded-3xl border border-gray-800 animate-pulse text-gray-400">
-            Loading your bookings from database...
+            Loading your bookings...
           </div>
         )}
 
@@ -173,16 +161,16 @@ function Dashboard({ onBrowseMovies }) {
             <div className="w-16 h-16 rounded-2xl bg-gray-800 flex items-center justify-center text-3xl mx-auto mb-4">
               🎟️
             </div>
-            <h3 className="text-xl font-bold text-white">No Bookings Found</h3>
+            <h3 className="text-xl font-bold text-white">No Bookings Yet</h3>
             <p className="text-sm text-gray-400 max-w-md mx-auto mt-1 mb-6">
-              You haven't booked any movie tickets yet. Explore now showing blockbusters and pick your prime seats!
+              You haven't booked any movie tickets yet. Browse available movies and book your tickets!
             </p>
             <button
               type="button"
               onClick={onBrowseMovies}
               className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-bold text-sm rounded-xl shadow-lg shadow-red-600/30 transition hover:scale-105"
             >
-              Browse Now Showing Movies
+              Browse Movies
             </button>
           </div>
         )}
@@ -192,10 +180,8 @@ function Dashboard({ onBrowseMovies }) {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {bookings.map((b, idx) => {
               const id = b._id || b.id || idx
-              const seatsLabel = Array.isArray(b.selectedSeats) && b.selectedSeats.length > 0
-                ? b.selectedSeats.join(', ')
-                : `${b.seats} seat(s)`
-
+              const seatsLabel = `${b.seats || 1} Ticket${(b.seats || 1) > 1 ? 's' : ''}`
+              const price = b.totalPrice ? Number(b.totalPrice) : (b.seats || 1) * 250
               const isCancelling = cancellingId === id
 
               return (
@@ -207,7 +193,7 @@ function Dashboard({ onBrowseMovies }) {
                     {/* Top ticket strip */}
                     <div className="flex items-center justify-between pb-3 border-b border-gray-800">
                       <span className="text-[10px] uppercase font-bold tracking-widest text-red-500">
-                        CONFIRMED PASS
+                        CONFIRMED
                       </span>
                       <span className="text-xs font-mono text-gray-400">
                         {b.date}
@@ -226,13 +212,13 @@ function Dashboard({ onBrowseMovies }) {
                         <span className="text-gray-200 font-semibold">{b.time}</span>
                       </div>
                       <div className="flex justify-between text-gray-400">
-                        <span>Reserved Seats:</span>
+                        <span>Tickets:</span>
                         <span className="text-red-400 font-bold">{seatsLabel}</span>
                       </div>
                       <div className="flex justify-between text-gray-400">
                         <span>Total Paid:</span>
                         <span className="text-emerald-400 font-bold">
-                          ${b.totalPrice ? Number(b.totalPrice).toFixed(2) : ((b.seats || 1) * 12).toFixed(2)}
+                          ₹{price.toLocaleString('en-IN')}
                         </span>
                       </div>
                     </div>
@@ -249,7 +235,7 @@ function Dashboard({ onBrowseMovies }) {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                       </svg>
-                      <span>Digital Pass</span>
+                      <span>View Ticket</span>
                     </button>
 
                     <button

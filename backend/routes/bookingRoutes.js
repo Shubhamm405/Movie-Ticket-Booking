@@ -56,7 +56,7 @@ router.post("/", async (req, res) => {
       userEmail: finalUserEmail,
       userName: finalUserName,
       selectedSeats: Array.isArray(selectedSeats) ? selectedSeats : [],
-      totalPrice: Number(totalPrice) || seatCount * 12,
+      totalPrice: Number(totalPrice) || seatCount * 250,
     });
 
     return res.status(201).json({

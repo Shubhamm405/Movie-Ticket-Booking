@@ -78,7 +78,7 @@ export function BookingProvider({ children }) {
         time: bookingData.time,
         seats: Number(bookingData.seats) || (bookingData.selectedSeats?.length || 1),
         selectedSeats: bookingData.selectedSeats || [],
-        totalPrice: bookingData.totalPrice || (bookingData.seats || 1) * 12,
+        totalPrice: bookingData.totalPrice || (bookingData.seats || 1) * 250,
         userId: user?.id,
         userEmail: user?.email || bookingData.userEmail,
         userName: user?.name || bookingData.userName || 'Guest User',
