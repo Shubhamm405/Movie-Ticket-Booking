@@ -18,6 +18,19 @@ function getAuthUser(req) {
   }
   return null;
 }
+// Middleware to protect routes using JWT authentication
+function requireAuth(req, res, next) {
+  const user = getAuthUser(req);
+
+  if (!user || !user.id) {
+    return res.status(401).json({
+      message: "Authentication required or token invalid",
+    });
+  }
+
+  req.user = user;
+  next();
+}
 
 // Create a booking
 router.post("/", async (req, res) => {
@@ -101,18 +114,13 @@ router.get("/occupied", async (req, res) => {
 });
 
 // Get bookings (optionally filtered by user email or userId)
-router.get("/", async (req, res) => {
+// Get only the authenticated user's bookings
+router.get("/", requireAuth, async (req, res) => {
   try {
-    const { email, userId } = req.query;
-    const filter = {};
+    const bookings = await Booking.find({
+      userId: req.user.id,
+    }).sort({ createdAt: -1 });
 
-    if (userId) {
-      filter.userId = userId;
-    } else if (email) {
-      filter.userEmail = email.toLowerCase();
-    }
-
-    const bookings = await Booking.find(filter).sort({ createdAt: -1 });
     return res.status(200).json(bookings);
   } catch (error) {
     console.error("Fetching bookings failed:", error.message);

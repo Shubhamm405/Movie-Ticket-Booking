@@ -22,40 +22,44 @@ export function BookingProvider({ children }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Fetch bookings for the current user (or all bookings)
-  const fetchBookings = useCallback(async () => {
-    setLoading(true)
-    setError('')
+  // Fetch bookings securely using the logged-in user's JWT
+const fetchBookings = useCallback(async () => {
+  setLoading(true)
+  setError('')
 
-    try {
-      let endpoint = `${API_URL}/api/bookings`
-      if (user?.email) {
-        endpoint += `?email=${encodeURIComponent(user.email)}`
-      }
-
-      const headers = {}
-      if (token) {
-        headers.Authorization = `Bearer ${token}`
-      }
-
-      const response = await fetch(endpoint, { headers })
-
-      if (!response.ok) {
-        throw new Error('Failed to load bookings from server.')
-      }
-
-      const data = await response.json()
-      if (Array.isArray(data)) {
-        setBookings(data)
-        localStorage.setItem('cinebook_cached_bookings', JSON.stringify(data))
-      }
-    } catch (err) {
-      console.warn('Booking fetch warning:', err.message)
-      setError(err.message || 'Could not fetch bookings.')
-    } finally {
-      setLoading(false)
+  try {
+    if (!token) {
+      setBookings([])
+      localStorage.removeItem('cinebook_cached_bookings')
+      return
     }
-  }, [user?.email, token])
+
+    const response = await fetch(`${API_URL}/api/bookings`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+
+    if (!response.ok) {
+      throw new Error('Failed to load bookings from server.')
+    }
+
+    const data = await response.json()
+
+    if (Array.isArray(data)) {
+      setBookings(data)
+      localStorage.setItem(
+        'cinebook_cached_bookings',
+        JSON.stringify(data)
+      )
+    }
+  } catch (err) {
+    console.warn('Booking fetch warning:', err.message)
+    setError(err.message || 'Could not fetch bookings.')
+  } finally {
+    setLoading(false)
+  }
+}, [token])
 
   // Automatically fetch bookings whenever the logged-in user changes
   useEffect(() => {
